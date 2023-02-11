@@ -29,7 +29,10 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState([]);
   const [cards, setCards] = React.useState([]);
   const [currentCard, setCurrentCard] = React.useState({});
-  const [loggedIn, isLoggedIn] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [headerText, setHeaderText] = React.useState('Регистрация');
+
+  const navigate = useNavigate();
 
   const formValidatorProfile = new FormValidator(
     validationObject,
@@ -151,6 +154,16 @@ function App() {
     }
   }
 
+  function linkToLogin() {
+    navigate("/sign-in");
+    setHeaderText('Регистрация')
+  }
+
+  function linkToRegister() {
+    navigate("/sign-up");
+      setHeaderText('Войти');
+  }
+
   React.useEffect(() => {
     api
       .getInitialCards()
@@ -176,11 +189,11 @@ function App() {
       onClick={handleClosePopup}
     >
       <CurrentUserContext.Provider value={currentUser}>
-        <Header loggedIn={loggedIn} />
+        <Header isLoggedIn={isLoggedIn} loginText={headerText} linkToLogin={linkToLogin} linkToRegister={linkToRegister} />
         <Routes>
         <Route path="/sign-in" element={ <Login /> } />
-        <Route path="/sign-up" element={ <Register /> } />
-        <Route path="/" element={<ProtectedRoute loggedIn={loggedIn} component={
+        <Route path="/sign-up" element={ <Register linkToLogin={linkToLogin} /> } />
+        <Route path="/mesto-react" element={<ProtectedRoute isLoggedIn={isLoggedIn} component={
           <Main
           onEditAvatar={handleEditAvatarClick}
           onCardDelete={handleDeleteCardClick}
@@ -191,6 +204,10 @@ function App() {
           cards={cards}
         />
         } />} />
+        <Route
+        path="*"
+        element={isLoggedIn ? <Navigate to="/mesto-react" /> : <Navigate to="/sign-in" />}
+        />
       </Routes>
         <Footer />
         <EditProfilePopup

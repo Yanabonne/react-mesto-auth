@@ -2,7 +2,7 @@ import closeButton from "../images/close.svg";
 import doneButton from "../images/done.svg";
 import crossButton from "../images/cross.svg";
 
-function InfoToolTip({
+function InfoTooltip({
     isOpen,
     isRegistered
 }) {
@@ -14,12 +14,13 @@ function InfoToolTip({
           <button type="button" className="popup__close">
             <img src={closeButton} className="popup__cross" alt="Крестик" />
           </button>
-          <div className="form">
-          <img src={closeButton} className="popup__cross" alt="Крестик" />
+          <div className="form form_success">
+          <img src={isRegistered ? doneButton : crossButton} className="popup__success" alt="Галочка" />
+          <h2 className="form__title form__title_success">{isRegistered ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.'}</h2>
           </div>
         </div>
       </div>
     );
   }
   
-  export default InfoToolTip;
+  export default InfoTooltip;
