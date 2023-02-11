@@ -1,11 +1,13 @@
 import logo from '../images/logo_white.svg';
 
-function Header({loginText, userEmail, isloggedIn, linkToLogin, linkToRegister}) {
+function Header({loginText, userEmail, isLoggedIn, linkToLogin, linkToRegister, onLogOut}) {
   function handleLoginClick() {
     if (loginText === 'Регистрация') {
       linkToRegister()
     } else if (loginText === 'Войти') {
       linkToLogin();
+    }else if (loginText === 'Выйти') {
+      onLogOut();
     }
   }
 
@@ -18,7 +20,7 @@ function Header({loginText, userEmail, isloggedIn, linkToLogin, linkToRegister})
         />
         <div className='header__auth'>
           <p className='header__email'>{userEmail}</p>
-          <p className={`${isloggedIn ? "header__login header__login_grey" : "header__login"}`} onClick={handleLoginClick} >{loginText}</p>
+          <p className={`${isLoggedIn ? "header__login header__login_grey" : "header__login"}`} onClick={handleLoginClick} >{loginText}</p>
         </div>
     </header>
   );

@@ -37,6 +37,7 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [isRegisteredSuccessfully, setIsRegisteredSuccessfully] =
     React.useState(false);
+  const [currentUserEmail, setCurrentUserEmail] = React.useState("");
 
   const navigate = useNavigate();
 
@@ -76,7 +77,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
     setIsConfirmationPopupOpen(false);
-    setIsInfoTooltipOpen(false)
+    setIsInfoTooltipOpen(false);
   }
 
   function handleCardClick(card) {
@@ -192,12 +193,25 @@ function App() {
 
   function handleAuthorization(password, email) {
     authorize(password, email)
-      .then(() => {
-        linkToProfile();
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem("token", res.token);
+          setIsLoggedIn(true);
+          setCurrentUserEmail(email);
+          linkToProfile();
+        }
       })
       .catch((err) => {
+        setIsRegisteredSuccessfully(false);
+        setIsInfoTooltipOpen(true);
         console.log(err);
       });
+  }
+
+  function handleLogOut() {
+    setCurrentUserEmail('');
+    linkToLogin();
+    setIsLoggedIn(false)
   }
 
   React.useEffect(() => {
@@ -230,9 +244,14 @@ function App() {
           loginText={headerText}
           linkToLogin={linkToLogin}
           linkToRegister={linkToRegister}
+          userEmail={currentUserEmail}
+          onLogOut={handleLogOut}
         />
         <Routes>
-          <Route path="/sign-in" element={<Login />} />
+          <Route
+            path="/sign-in"
+            element={<Login onAuthorization={handleAuthorization} />}
+          />
           <Route
             path="/sign-up"
             element={
@@ -247,17 +266,14 @@ function App() {
             element={
               <ProtectedRoute
                 isLoggedIn={isLoggedIn}
-                component={
-                  <Main
-                    onEditAvatar={handleEditAvatarClick}
-                    onCardDelete={handleDeleteCardClick}
-                    onCardLike={handleCardLike}
-                    onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onCardClick={handleCardClick}
-                    cards={cards}
-                  />
-                }
+                onEditAvatar={handleEditAvatarClick}
+                onCardDelete={handleDeleteCardClick}
+                onCardLike={handleCardLike}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+                cards={cards}
+                component={Main}
               />
             }
           />

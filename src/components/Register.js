@@ -1,18 +1,22 @@
 import React from "react";
 
-function Register({ linkToLogin, onRegistration}) {
-    const emailRef = React.useRef(); 
-    const passwordRef = React.useRef(); 
+function Register({ linkToLogin, onRegistration }) {
+  const emailRef = React.useRef();
+  const passwordRef = React.useRef();
 
   function handleRegistration(e) {
     e.preventDefault();
-    onRegistration(passwordRef.current.value, emailRef.current.value)
+    onRegistration(passwordRef.current.value, emailRef.current.value);
   }
 
   return (
     <main className="content">
       <section className="sign-in">
-        <form className="form form_white" name="login" onSubmit={handleRegistration}>
+        <form
+          className="form form_white"
+          name="login"
+          onSubmit={handleRegistration}
+        >
           <h2 className="form__title form__title_white">Регистрация</h2>
           <input
             type="email"
