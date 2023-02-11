@@ -13,7 +13,7 @@ function Register({linkToLogin}) {
           <form className="form form_white" name="login" >
               <h2 className="form__title form__title_white">Регистрация</h2>
               <input
-                  type="url"
+                  type="email"
                   className="form__text form__text_white"
                   name="email"
                   placeholder="Email"
@@ -23,7 +23,7 @@ function Register({linkToLogin}) {
                 />
                 <span className="form__input-error"></span>
                 <input
-                  type="text"
+                  type="password"
                   className="form__text form__text_white"
                   name="password"
                   placeholder="Пароль"
