@@ -8,6 +8,7 @@ import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
 import ConfirmCardDeletePopup from "./ConfirmCardDeletePopup.js";
 import ImagePopup from "./ImagePopup.js";
+import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute.js";
 import Login from "./Login.js";
 import Register from "./Register.js";
@@ -15,6 +16,7 @@ import { FormValidator } from "../utils/FormValidator.js";
 import api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { validationObject } from "../utils/constants.js";
+import { register, authorize, getUserContent } from "../Auth.js";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -25,12 +27,16 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] =
     React.useState(false);
+
   const [selectedCard, setSelectedCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState([]);
   const [cards, setCards] = React.useState([]);
   const [currentCard, setCurrentCard] = React.useState({});
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [headerText, setHeaderText] = React.useState('Регистрация');
+  const [headerText, setHeaderText] = React.useState("Регистрация");
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
+  const [isRegisteredSuccessfully, setIsRegisteredSuccessfully] =
+    React.useState(false);
 
   const navigate = useNavigate();
 
@@ -70,6 +76,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
     setIsConfirmationPopupOpen(false);
+    setIsInfoTooltipOpen(false)
   }
 
   function handleCardClick(card) {
@@ -156,12 +163,41 @@ function App() {
 
   function linkToLogin() {
     navigate("/sign-in");
-    setHeaderText('Регистрация')
+    setHeaderText("Регистрация");
   }
 
   function linkToRegister() {
     navigate("/sign-up");
-      setHeaderText('Войти');
+    setHeaderText("Войти");
+  }
+
+  function linkToProfile() {
+    navigate("/mesto-react");
+    setHeaderText("Выйти");
+  }
+
+  function handleRegistration(password, email) {
+    register(password, email)
+      .then(() => {
+        setIsRegisteredSuccessfully(true);
+        setIsInfoTooltipOpen(true);
+        linkToLogin();
+      })
+      .catch((err) => {
+        setIsRegisteredSuccessfully(false);
+        setIsInfoTooltipOpen(true);
+        console.log(err);
+      });
+  }
+
+  function handleAuthorization(password, email) {
+    authorize(password, email)
+      .then(() => {
+        linkToProfile();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   React.useEffect(() => {
@@ -189,26 +225,53 @@ function App() {
       onClick={handleClosePopup}
     >
       <CurrentUserContext.Provider value={currentUser}>
-        <Header isLoggedIn={isLoggedIn} loginText={headerText} linkToLogin={linkToLogin} linkToRegister={linkToRegister} />
+        <Header
+          isLoggedIn={isLoggedIn}
+          loginText={headerText}
+          linkToLogin={linkToLogin}
+          linkToRegister={linkToRegister}
+        />
         <Routes>
-        <Route path="/sign-in" element={ <Login /> } />
-        <Route path="/sign-up" element={ <Register linkToLogin={linkToLogin} /> } />
-        <Route path="/mesto-react" element={<ProtectedRoute isLoggedIn={isLoggedIn} component={
-          <Main
-          onEditAvatar={handleEditAvatarClick}
-          onCardDelete={handleDeleteCardClick}
-          onCardLike={handleCardLike}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          cards={cards}
-        />
-        } />} />
-        <Route
-        path="*"
-        element={isLoggedIn ? <Navigate to="/mesto-react" /> : <Navigate to="/sign-in" />}
-        />
-      </Routes>
+          <Route path="/sign-in" element={<Login />} />
+          <Route
+            path="/sign-up"
+            element={
+              <Register
+                linkToLogin={linkToLogin}
+                onRegistration={handleRegistration}
+              />
+            }
+          />
+          <Route
+            path="/mesto-react"
+            element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                component={
+                  <Main
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardDelete={handleDeleteCardClick}
+                    onCardLike={handleCardLike}
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onCardClick={handleCardClick}
+                    cards={cards}
+                  />
+                }
+              />
+            }
+          />
+          <Route
+            path="*"
+            element={
+              isLoggedIn ? (
+                <Navigate to="/mesto-react" />
+              ) : (
+                <Navigate to="/sign-in" />
+              )
+            }
+          />
+        </Routes>
         <Footer />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
@@ -234,6 +297,11 @@ function App() {
           card={selectedCard}
           onClose={closeAllPopups}
           isOpen={isImagePopupOpen}
+        />
+        <InfoTooltip
+          isOpen={isInfoTooltipOpen}
+          isRegistered={isRegisteredSuccessfully}
+          onClose={closeAllPopups}
         />
       </CurrentUserContext.Provider>
     </div>

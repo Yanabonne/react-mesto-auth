@@ -4,14 +4,15 @@ import crossButton from "../images/cross.svg";
 
 function InfoTooltip({
     isOpen,
-    isRegistered
+    isRegistered,
+    onClose
 }) {
     return (
         <div
         className={`${isOpen ? "popup popup_opened" : "popup"}`}
       >
         <div className="popup__container">
-          <button type="button" className="popup__close">
+          <button type="button" className="popup__close" onClick={onClose}>
             <img src={closeButton} className="popup__cross" alt="Крестик" />
           </button>
           <div className="form form_success">
