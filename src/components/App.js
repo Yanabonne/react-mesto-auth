@@ -210,8 +210,23 @@ function App() {
 
   function handleLogOut() {
     setCurrentUserEmail('');
-    linkToLogin();
     setIsLoggedIn(false)
+    localStorage.setItem("token", '');
+    linkToLogin();
+  }
+
+  function tokenCheck() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      getUserContent(token).then((res) => {
+        setCurrentUserEmail(res.data.email)
+        setIsLoggedIn(true);
+        linkToProfile();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
   }
 
   React.useEffect(() => {
@@ -230,6 +245,10 @@ function App() {
         setCurrentUser(userData);
       })
       .catch((err) => console.log(err));
+  }, []);
+
+  React.useEffect(() => {
+    tokenCheck();
   }, []);
 
   return (
