@@ -63,7 +63,7 @@ function Main({
         </button>
       </section>
       <section className="photo-grid" aria-label="Секция с фотографиями">
-        {cards.reverse().map((card) => (
+        {cards.map((card) => (
           <Card
             card={card}
             key={card._id}

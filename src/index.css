@@ -5,8 +5,14 @@
 @import url(./blocks/page/page.css);
 
 @import url(./blocks/header/header.css);
+@import url(./blocks/header/_logged-in/header_logged-in.css);
+@import url(./blocks/header/__logos/header__logos.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__burger/header__burger.css);
+@import url(./blocks/header/__burger/_no-display/header__burger_no-display.css);
 @import url(./blocks/header/__auth/header__auth.css);
+@import url(./blocks/header/__auth/_logged-in/header__auth_logged-in.css);
+@import url(./blocks/header/__auth/_opened/header__auth_opened.css);
 @import url(./blocks/header/__login/header__login.css);
 @import url(./blocks/header/__login/_grey/header__login_grey.css);
 @import url(./blocks/header/__email/header__email.css);

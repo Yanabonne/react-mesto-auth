@@ -7,10 +7,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 41px;
 }
 
 @media screen and (max-width: 600px) {
   .header {
     padding-top: 28px;
+    padding-bottom: 32px;
   }
 }

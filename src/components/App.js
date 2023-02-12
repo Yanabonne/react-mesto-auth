@@ -181,8 +181,8 @@ function App() {
     register(password, email)
       .then(() => {
         setIsRegisteredSuccessfully(true);
-        setIsInfoTooltipOpen(true);
         linkToLogin();
+        setIsInfoTooltipOpen(true);
       })
       .catch((err) => {
         setIsRegisteredSuccessfully(false);

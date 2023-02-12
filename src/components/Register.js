@@ -24,8 +24,6 @@ function Register({ linkToLogin, onRegistration }) {
             name="email"
             placeholder="Email"
             required
-            minLength="2"
-            maxLength="30"
             ref={emailRef}
           />
           <span className="form__input-error"></span>
