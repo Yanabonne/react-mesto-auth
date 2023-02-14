@@ -16,7 +16,7 @@ import { FormValidator } from "../utils/FormValidator.js";
 import api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { validationObject } from "../utils/constants.js";
-import { register, authorize, getUserContent } from "../Auth.js";
+import { register, authorize, getUserContent } from "../utils/auth.js";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -230,22 +230,26 @@ function App() {
   }
 
   React.useEffect(() => {
-    api
+    if (isLoggedIn) {
+      api
       .getInitialCards()
       .then((initialCards) => {
         setCards(initialCards);
       })
       .catch((err) => console.log(err));
-  }, []);
+    }
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
-    api
+    if (isLoggedIn) {
+      api
       .getUserInfo()
       .then((userData) => {
         setCurrentUser(userData);
       })
       .catch((err) => console.log(err));
-  }, []);
+    }
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
     tokenCheck();
