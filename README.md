@@ -26,7 +26,7 @@
 
 https://yanabonne.github.io/react-mesto-auth/
 
-**Команда для сборки и запуска проекта**
+**:magic_wand: Команда для сборки и запуска проекта**
 
 ```
 npm run start
