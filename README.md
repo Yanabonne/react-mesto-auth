@@ -1,12 +1,16 @@
-# Проект: Место React
+<div id="header" align="center">
+  <img src="https://media.giphy.com/media/njYrp176NQsHS/giphy.gif" width="300"/>
+</div>
+
+# Проект: Место React Authentification
 
 ### Добро пожаловать на мой учебный проект :)
 
-**О проекте**
+**:magic_wand: О проекте**
 
 Данный проект представляет страницу с возможностью регистрации, авторизации, изменения информации профиля с лайв-валидацией, добавления и удаления фотографий и выставления лайков.
 
-**Технологии**
+**:magic_wand: Технологии**
 
 - HTML5
 - CSS3
@@ -14,10 +18,16 @@
 - React
 - Create React App (CRA)
 
-**Ссылка на проект**
+**:magic_wand: Статус и планы по доработке**
+
+Проект завершён.
+
+**:magic_wand: Ссылка на проект**
 
 https://yanabonne.github.io/react-mesto-auth/
 
 **Команда для сборки и запуска проекта**
 
-*npm run deploy*
+```
+npm run start
+```
