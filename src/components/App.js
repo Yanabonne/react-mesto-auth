@@ -41,29 +41,32 @@ function App() {
 
   const navigate = useNavigate();
 
-  const formValidatorProfile = new FormValidator(
-    validationObject,
-    document.querySelector("#form-profile")
-  );
-  const formValidatorMesto = new FormValidator(
-    validationObject,
-    document.querySelector("#form-mesto")
-  );
-  const formValidatorProfileImage = new FormValidator(
-    validationObject,
-    document.querySelector("#form-profile-image")
-  );
+  window.addEventListener('load', () => {
+    const formValidatorProfile = new FormValidator(
+      validationObject,
+      document.querySelector("#form-profile")
+    );
+    const formValidatorMesto = new FormValidator(
+      validationObject,
+      document.querySelector("#form-mesto")
+    );
+    const formValidatorProfileImage = new FormValidator(
+      validationObject,
+      document.querySelector("#form-profile-image")
+    );
+
+    formValidatorProfileImage.enableValidation();
+    formValidatorProfile.enableValidation();
+    formValidatorMesto.enableValidation();
+  })
 
   function handleEditAvatarClick() {
-    formValidatorProfileImage.enableValidation();
     setIsEditAvatarPopupOpen(true);
   }
   function handleEditProfileClick() {
-    formValidatorProfile.enableValidation();
     setIsEditProfilePopupOpen(true);
   }
   function handleAddPlaceClick() {
-    formValidatorMesto.enableValidation();
     setIsAddPlacePopupOpen(true);
   }
   function handleDeleteCardClick(card) {
